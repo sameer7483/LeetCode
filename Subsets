@@ -1,0 +1,32 @@
+Given an integer array nums of unique elements, return all possible subsets (the power set).
+
+RECURSION:
+
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        return subsetsUtil(nums, nums.length);
+    }
+    
+    public List<List<Integer>> subsetsUtil(int[] nums, int n){
+        if(n==0){
+            List<List<Integer>> zero = new ArrayList<>();
+            List<Integer> blank = new ArrayList<>();
+            zero.add(blank);
+            return zero;
+        }
+            
+        List<List<Integer>> result = subsetsUtil(nums, n-1);
+        int size = result.size();
+        for(int i=0;i<size;i++){
+            List<Integer> med =new ArrayList<>();
+            for(int j=0;j<result.get(i).size();j++){
+                med.add(result.get(i).get(j));
+            }
+            
+            med.add(nums[n-1]);
+            result.add(med);
+        }
+        return result;
+        
+    }
+}
