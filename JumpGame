@@ -1,0 +1,41 @@
+Given an array of non-negative integers nums, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Determine if you are able to reach the last index.
+
+ 
+ Solution:
+ 
+ class Solution {
+    public boolean canJump(int[] nums) {
+        int n = nums.length;
+        if(n==0 || n==1)
+            return true;
+        return canJumpUtil(nums, n);
+    }
+    
+    public boolean canJumpUtil(int[] nums, int n){
+        
+        if(n==0 || n==1)
+            return true;
+        boolean[] t = new boolean[n+1];
+        t[0]=true;
+        for(int i=1;i<n;i++){
+            boolean flag =false;
+            for(int j=0;j<i;j++){
+                if(t[j] == true){
+                    if(j+nums[j] >= i){
+                        flag = true;
+                        t[i]=true;
+                        break;
+                    }
+                        
+                }
+            }
+            if(!flag)
+                t[i]=false;
+        }  
+        return t[n-1];
+    }
+}
