@@ -8,7 +8,7 @@ You may assume that you have an infinite number of each kind of coin
 
 Solution:
 
-Recursive:
+#1. Recursive:
 
 class Solution {
     public int coinChange(int[] coins, int amount) {
@@ -39,5 +39,46 @@ class Solution {
             totalCoin = coinChangeUtil(coins, n-1, amount);
         }
         return totalCoin;
+    }
+}
+
+#2 Dynamic Programming
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        Arrays.sort(coins);
+        int n = coins.length;
+        int result = coinChangeUtil(coins, n,amount);
+        if(result == Integer.MAX_VALUE)
+            return -1;
+        else
+            return result;
+        
+    }
+    
+    public int coinChangeUtil(int[] coins, int n, int amount){
+        int[][] t = new int[n+1][amount+1];
+        for(int i=0,j=0;i<=n;i++)
+            t[i][j]=0;
+        for(int i=0,j=1;j<=amount;j++){
+            t[i][j]=Integer.MAX_VALUE;
+        }
+        
+        int totalCoin = Integer.MAX_VALUE;
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=amount;j++){
+                if(coins[i-1]<=j){
+                    int left = t[i][j-coins[i-1]];
+                    int right = t[i-1][j];
+                    if(left != Integer.MAX_VALUE)
+                        left = left+1;
+                    t[i][j] = Math.min(left,right);     
+                }
+                else{
+                    t[i][j] = t[i-1][j];
+                }
+            }
+        }
+        return t[n][amount];
     }
 }
