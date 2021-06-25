@@ -1,0 +1,70 @@
+
+Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
+
+If target is not found in the array, return [-1, -1].
+
+
+SOLUTION:
+
+O(log N)
+
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int start =-1;
+        int end =-1;
+        int n = nums.length;
+        end = lastSearch(nums, 0,n-1, target, n);
+        start = firstSearch(nums, 0, n-1, target, n);
+        
+        int[] result = new int[2];
+        result[0] = start;
+        result[1] = end;
+        return result;
+    }
+    
+    public int firstSearch(int[] nums, int low, int high, int target, int n){
+        while(low<=high){
+            int mid = high -(high-low)/2;
+            
+            if( (mid ==0 || nums[mid-1] != target) &&  nums[mid] == target){
+            
+                return mid;
+            }
+            
+            else if(nums[mid] < target){
+                low = mid+1;
+            }
+            else if(nums[mid] >=target){
+                high = mid-1;
+            }
+                
+        }
+        return -1;
+    }
+        
+       public int lastSearch(int[] nums, int low, int high, int target, int n){
+        while(low<=high){
+           
+            int mid = high -(high-low)/2;
+             System.out.println(low);
+            System.out.println(high);
+             System.out.println(mid);
+            
+            
+            if( (mid == n-1 || nums[mid+1] != target) &&  nums[mid] == target)
+                {
+                System.out.println(mid);
+                return mid;
+            }
+            
+            else if(nums[mid] <= target){
+                low = mid+1;
+            }
+            else if(nums[mid] >target){
+                high = mid-1;
+            }
+                
+        }
+        return -1;
+    }
+}
