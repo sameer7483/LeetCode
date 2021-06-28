@@ -1,0 +1,19 @@
+
+Given an integer n, return the number of trailing zeroes in n!.
+
+SOLUTION:
+
+class Solution {
+    public int trailingZeroes(int n) {
+        int result =  0;
+        int i = 1;
+        while(true){
+            int k = n/(int)Math.pow(5,i);
+            i++;
+            if(k == 0)
+                break;
+            result = result + k;      
+        }
+        return result;
+    }
+}
