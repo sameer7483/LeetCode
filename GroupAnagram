@@ -1,0 +1,71 @@
+Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+SOLUTION: 
+
+RECURSION
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        int n = strs.length;
+        return groupAnagramsUtil(strs, n);
+    }
+    
+    public List<List<String>> groupAnagramsUtil(String[] strs, int n){
+        if(n==0){ 
+            return new ArrayList<>();
+            
+        }
+             
+        List<List<String>> result = groupAnagramsUtil(strs, n-1);
+        boolean flag = false;
+        for(List<String> anagram : result){
+            if(isAnagram(strs[n-1], anagram.get(0))){
+                anagram.add(strs[n-1]);
+                flag = true;
+            }
+        }
+        if(!flag){
+            List<String> empty = new ArrayList<>();
+            empty.add(strs[n-1]);
+            result.add(empty);
+        }
+        return result;
+    }
+    
+    public boolean isAnagram(String s1, String s2){
+        Map<Character, Integer> map = new HashMap<>();
+        int m = s1.length();
+        int n = s2.length();
+        if(m != n)
+            return false;
+        for(int i=0;i < m;i++){
+            if(map.containsKey(s1.charAt(i))){
+                map.replace(s1.charAt(i), map.get(s1.charAt(i)) +1);
+            }
+            else{
+                map.put(s1.charAt(i),1);
+            }
+        }
+        for(int i=0;i < n;i++){
+            if(map.containsKey(s2.charAt(i))){
+                int isZero =  map.get(s2.charAt(i)) -1;
+                if(isZero ==0){
+                    map.remove(s2.charAt(i));
+                }
+                else{
+                    
+                     map.replace(s2.charAt(i), isZero);
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        
+       if(!map.isEmpty())
+           return false;
+        return true;
+    }
+}
