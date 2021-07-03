@@ -1,0 +1,66 @@
+Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.
+
+ class Solution {
+    public boolean increasingTriplet(int[] a) {
+        int n = a.length;
+        if(n<3)
+            return false;
+        Stack<Integer> s = new Stack<Integer>();
+        int[] ngl = new int[n];
+        ngl[n-1] =-1;
+        s.push(n-1);
+        for(int i=n-2;i>=0;i--){
+            if(!s.isEmpty()){
+                while(!s.isEmpty() && a[s.peek()] <= a[i]){
+                    s.pop();
+                }
+                if(s.isEmpty())
+                    ngl[i]=-1;
+                else{
+                    ngl[i]=s.peek();
+                }
+            }else{
+                ngl[i]=-1;
+            }
+            s.push(i);
+        }
+        while(!s.isEmpty())
+            s.pop();
+    int[] nsl = new int[n];
+        nsl[0]=-1;
+        s.push(0);
+        for(int i=1;i<n;i++){
+            if(!s.isEmpty()){
+                while(!s.isEmpty() && a[i] <= a[s.peek()])
+                    s.pop();
+                if(s.isEmpty())
+                    nsl[i]=-1;
+                else
+                    nsl[i]= s.peek();
+            }
+            else{
+                nsl[i] =-1;
+            }
+            s.push(i);
+        }
+        for(int i=0;i<n;i++){
+            if(nsl[i] != -1 && ngl[i] != -1)
+                return true;
+        }
+        return false;
+        
+    }
+    
+    
+    public boolean bruteForce(int[] a, int n){
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                for(int k=j+1;k<n;k++){
+                    if(a[i] < a[j] && a[j] < a[k])
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+}
