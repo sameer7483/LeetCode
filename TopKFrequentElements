@@ -1,0 +1,32 @@
+Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map= new HashMap<>();
+        int n = nums.length;
+        for(int i=0;i<n;i++){
+            if(map.containsKey(nums[i])){
+                map.replace(nums[i], map.get(nums[i]) +1);
+            }
+            else{
+                map.put(nums[i],1);
+            }
+        }
+        
+        PriorityQueue<Pair<Integer, Integer>> q = new PriorityQueue(k, new Comparator<Pair>() {
+            @Override public int compare(Pair p1, Pair p2)
+            {
+                return (int)p2.getValue() - (int)p1.getValue();
+            }
+        });
+        
+        for(Map.Entry<Integer, Integer> m : map.entrySet()){
+            q.add(new Pair(m.getKey(), m.getValue()));
+        }
+        int[] result = new int[k];
+        for(int i=0;i<k;i++){
+            result[i] = q.poll().getKey();
+        }
+        return result;
+    }
+}
