@@ -1,0 +1,42 @@
+Given the root of a binary search tree, and an integer k, return the kth (1-indexed) smallest element in the tree.
+
+SOLUTION:
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    static int i=0;
+    static int result = 0;
+    public int kthSmallest(TreeNode root, int k) {
+        i=0;
+        result=0;
+      kthSmallestUtil(root, k);
+        return result;
+        
+    }
+    
+    public void kthSmallestUtil(TreeNode root, int k){
+        if(root == null)
+            return ;
+        kthSmallestUtil(root.left, k);
+        i++;
+        if(i==k)
+            result = root.val;
+         kthSmallestUtil(root.right,k);  
+    }
+    
+    
+}
