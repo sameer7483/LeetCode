@@ -1,0 +1,45 @@
+You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
+
+Return the max sliding window.
+
+SOLUTION:
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        
+        int n = nums.length;
+        int[] result = new int[n-k+1];
+        int index=0;
+        int i=0;
+        int j=k-1;
+        int max = Integer.MIN_VALUE;
+        max = findMax(nums, i, j);
+        result[index] = max;
+        index++;
+        i++;
+        j++;
+        while(j<n){
+            if(nums[i-1] == max)
+                max = findMax(nums, i, j);
+            else{
+                if(nums[j] > max)
+                    max = nums[j];
+            }
+            result[index] = max;
+            i++;
+            j++;
+            index++;
+        }
+        return result;
+    }
+    
+    public int findMax(int[] nums, int lo, int hi){
+        int max = Integer.MIN_VALUE;
+        for(int i=lo;i<=hi;i++){
+            if(nums[i] > max)
+                max = nums[i];
+        }
+        return max;
+    }
+    
+}
