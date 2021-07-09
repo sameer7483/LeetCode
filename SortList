@@ -1,0 +1,122 @@
+Given the head of a linked list, return the list after sorting it in ascending order.
+
+Follow up: Can you sort the linked list in O(n logn) time and O(1) memory (i.e. constant space)?
+
+SOLUTION:
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+        int n =0;
+        ListNode temp = head;
+        while(temp != null){
+            n++;
+            temp = temp.next;
+        }
+        System.out.println(n);
+        return sortListUtil(head, 0, n-1);
+    }
+    
+    public ListNode sortListUtil(ListNode head , int start , int end){
+        if(head == null)
+            return head;
+        if(end-start <0)
+            return null;
+        if(end-start ==0)
+            return head;
+        int mid = (start+end)/2;
+       ListNode left = sortListUtil(head, start, mid);
+        int i=start;
+        ListNode nextHead = head;
+        while(i<=mid){
+            nextHead = nextHead.next;
+            i++;
+        }
+       ListNode right= sortListUtil(nextHead, mid+1, end);
+        return mergeTwoLinkedList(left,mid-start+1, right, end-mid);
+        
+    }
+    
+    
+    public ListNode mergeTwoLinkedList(ListNode l1,int m,  ListNode l2, int n){
+        if(l1 == null)
+            return l2;
+        if(l2 == null)
+            return l1;
+        ListNode result = new ListNode();        
+        ListNode temp = result;
+        ListNode temp1 = l1;
+        ListNode temp2 = l2;
+        int i = 0;
+        int j = 0;
+        while(temp1 != null && temp2 != null && i<m && j<n){
+            if(temp1.val > temp2.val){
+                temp.next = new ListNode(temp2.val);
+                temp2 = temp2.next;
+                j++;
+            }
+            else{
+                temp.next = new ListNode(temp1.val);
+                temp1 = temp1.next;
+                i++;
+            }
+            temp = temp.next;
+        }
+        
+        if(temp1 == null || i==m){
+            while(temp2 != null && j<n){
+                temp.next = new ListNode(temp2.val);
+                temp2 = temp2.next;
+                j++;
+                temp = temp.next;
+            }
+        }
+        else if(temp2 == null || j==n){
+            while(temp1 != null && i<m){
+                temp.next = new ListNode(temp1.val);
+                temp1 = temp1.next;
+                i++;
+                temp = temp.next;
+            }
+        }
+        
+        return result.next;
+        
+    }
+    
+    public ListNode bubbleSort(ListNode head){
+        if(head == null)
+            return head;
+        int n =0;
+        ListNode temp = head;
+        while(temp != null){
+            n++;
+            temp = temp.next;
+        }
+        
+        for(int i=0;i<n-1;i++){
+            temp = head;
+            while(temp != null && temp.next != null){
+                if(temp.val > temp.next.val){
+                    int a = temp.val;
+                    temp.val = temp.next.val;
+                    temp.next.val = a;
+                }
+                temp = temp.next;
+            }
+            
+        }
+        return head;
+    }
+}
