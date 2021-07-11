@@ -1,0 +1,40 @@
+Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.
+
+SOLUTION:
+
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        return largestRectangleAreaUtil(heights);
+    }
+    
+        public int largestRectangleAreaUtil(int[] height){
+        int n = height.length;
+        int max = Integer.MIN_VALUE;
+        int i=0;
+        Stack<Integer> s = new Stack<Integer>();
+        while(i<n){  
+                if(s.empty() || height[s.peek()] <= height[i])
+                {
+                    s.push(i);
+                    i++;
+                }
+                else{
+                    int index = s.peek();
+                    s.pop();
+                    int area = height[index] * (s.empty() ? i : i-s.peek()-1);
+                    max = Math.max(max,area);
+                }
+            }
+            
+            
+         while(!s.empty()){
+             int index = s.peek();
+             s.pop();
+            int area = height[index] * (s.empty() ? i : i-s.peek()-1);
+             max = Math.max(max,area);
+         }   
+            
+        
+        return max;
+    }
+}
