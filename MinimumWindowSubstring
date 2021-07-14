@@ -1,0 +1,54 @@
+Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+A substring is a contiguous sequence of characters within the string.
+
+ 
+
+
+SOLUTION:
+
+
+class Solution {
+    public String minWindow(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+        if(n > m)
+            return "";
+        int[] hashString = new int[256];
+        int[] hashPattern = new int[256];
+        int start = 0;
+        int startIndex =-1;
+        int count =0;
+        int minValue = Integer.MAX_VALUE;
+        for(int i=0;i<n;i++)
+            hashPattern[t.charAt(i)]++;
+        for(int i=0;i<m;i++){
+            
+            hashString[s.charAt(i)]++;
+            if(hashString[s.charAt(i)] <= hashPattern[s.charAt(i)]){
+                count++;
+            }
+            
+            if(count == n){
+                while(hashString[s.charAt(start)] > hashPattern[s.charAt(start)] || hashPattern[s.charAt(start)] ==0){
+                    hashString[s.charAt(start)]--;
+                    start++;
+                }
+                
+                int length = i-start+1;
+                if(length < minValue){
+                    
+                    minValue = length;
+                    startIndex = start;
+                }
+            }
+            
+            
+        }
+        if(startIndex == -1)
+            return "";
+        return s.substring(startIndex,startIndex+ minValue);
+    }
+}
