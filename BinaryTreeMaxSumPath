@@ -1,0 +1,56 @@
+A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. A node can only appear in the sequence at most once. Note that the path does not need to pass through the root.
+
+The path sum of a path is the sum of the node's values in the path.
+
+Given the root of a binary tree, return the maximum path sum of any path.
+
+SOLUTION:
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Wrapper{
+    int result = Integer.MIN_VALUE;
+}
+class Solution {
+    public int maxPathSum(TreeNode root) {
+        Wrapper wrapper = new Wrapper();
+         maxPathSumUtil(root, wrapper);
+        return wrapper.result;
+    }
+    
+    public int maxPathSumUtil(TreeNode root,Wrapper wrapper){
+        if(root == null)
+            return Integer.MIN_VALUE;
+        int l = maxPathSumUtil(root.left, wrapper);
+        int r = maxPathSumUtil(root.right,wrapper);
+        int sum =0;
+        if(l==Integer.MIN_VALUE && r ==Integer.MIN_VALUE)
+            sum = Integer.MIN_VALUE;
+        else if(l==Integer.MIN_VALUE && r !=Integer.MIN_VALUE)
+            sum = r;
+        else if(l!=Integer.MIN_VALUE && r ==Integer.MIN_VALUE)
+            sum = l;
+        else 
+            sum = l+r;
+        int maxOne = Math.max( sum != Integer.MIN_VALUE ? Math.max(l,r)+root.val:sum, root.val);
+        
+        int maxResult = Math.max(maxOne, sum != Integer.MIN_VALUE ? sum+root.val : sum);
+        wrapper.result = Math.max(wrapper.result, maxResult);
+       
+        return maxOne;
+    }
+}
