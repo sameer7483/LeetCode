@@ -1,0 +1,95 @@
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.
+
+SOLUTION:
+
+class Solution {
+    
+    class Wrapper{
+        public boolean isCyclic=false;
+    } 
+    
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+         Map<Integer, List<Integer>> adj = new HashMap<>();
+        int n = prerequisites.length;
+        List<Integer> node = null;
+        for(int i=0;i<n;i++){
+            if(adj.containsKey(prerequisites[i][0])){
+                node = adj.get(prerequisites[i][0]);
+                node.add(prerequisites[i][1]);
+                adj.put(prerequisites[i][0], node);
+            }
+            else{
+                node = new ArrayList<>();
+                node.add(prerequisites[i][1]);
+                adj.put(prerequisites[i][0], node);
+            }
+        }
+        return findOrderUtil(adj, numCourses);
+    }
+    
+    
+    public int[] findOrderUtil(Map<Integer, List<Integer>> adj, int n){
+        List<Integer> result = new ArrayList<>();
+        boolean[] isVisited = new boolean[n];
+        boolean[] isRecursion = new boolean[n];
+        int[] val = new int[n];
+        Wrapper wrapper = new Wrapper();
+        for(Map.Entry<Integer, List<Integer>> entry : adj.entrySet()){
+                findOrderList(entry.getKey(),adj, isVisited,isRecursion, result,wrapper);
+            System.out.println(wrapper.isCyclic);
+            if(wrapper.isCyclic){
+                    return new int[0];
+                }  
+        }
+        int index =0;
+        for(int i=0;i<n;i++){
+            if(isVisited[i] == false){
+                val[index++]=i;
+            }
+        }
+        for(int i=0;i<result.size();i++){
+            val[index++]= result.get(i);
+        }
+        return val;
+    }
+    
+    public void findOrderList(int v, Map<Integer, List<Integer>> adj, boolean[] isVisited,boolean[] isRecursion , List<Integer> result,Wrapper wrapper){
+        
+        if(isRecursion[v]){
+            result.clear();
+            wrapper.isCyclic = true;
+            return;
+        }
+        
+        if(isVisited[v]){
+            return;
+        }
+        
+        isRecursion[v]= true;
+        isVisited[v] = true;
+        List<Integer> list = adj.get(v);
+        if(list!= null){
+            for(int i=0;i<list.size();i++){
+                findOrderList(list.get(i), adj, isVisited, isRecursion, result, wrapper);
+                if(wrapper.isCyclic){
+                    return ;
+                }
+            }
+        }
+        else{
+            if(wrapper.isCyclic){
+                    return ;
+                }
+        }
+        
+            if(!result.contains(v))
+                result.add(v);
+        isRecursion[v] = false;
+    }
+    
+    
+    
+}
