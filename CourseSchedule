@@ -1,0 +1,64 @@
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+Return true if you can finish all courses. Otherwise, return false.
+
+SOLUTION:
+
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        int n = prerequisites.length;
+        List<Integer> node = null;
+        for(int i=0;i<n;i++){
+            if(adj.containsKey(prerequisites[i][0])){
+                node = adj.get(prerequisites[i][0]);
+                node.add(prerequisites[i][1]);
+                adj.put(prerequisites[i][0], node);
+            }
+            else{
+                node = new ArrayList<>();
+                node.add(prerequisites[i][1]);
+                adj.put(prerequisites[i][0], node);
+            }
+        }
+        System.out.println(adj);
+        return canFinishUtil(adj, numCourses);
+    }
+    
+    public boolean isCycle(int v,Map<Integer, List<Integer>> adj, boolean[] isVisited,boolean[] recursion){
+        if(recursion[v]==true)
+            return true;
+        if(isVisited[v] == true)
+            return false;
+        recursion[v]=true;
+        isVisited[v] = true;
+        List<Integer> l = adj.get(v);
+        if(l!= null){
+            for(int i=0;i<l.size();i++){
+            if(isCycle(l.get(i), adj, isVisited, recursion) == true)
+                return true;
+        }
+            
+        }
+        
+            recursion[v] = false;
+        return false;
+    }
+    
+    public boolean canFinishUtil(Map<Integer, List<Integer>> adj, int n)
+    {
+        boolean[] isVisited = new boolean[n];
+        
+        boolean[] recursion = new boolean[n];
+        boolean isCyclic = false;
+        for(Map.Entry<Integer, List<Integer>> entry : adj.entrySet()){
+                isCyclic = isCycle(entry.getKey(),adj, isVisited,recursion);
+            if(isCyclic == true)
+                return false;
+        }
+        return true;
+        
+    }
+    
+}
