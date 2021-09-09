@@ -1,0 +1,34 @@
+Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+A subarray is a contiguous part of an array.
+
+SOLUTION:
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxSum = 0;
+        int maxSumUntilNow = 0;
+        int n = nums.length;
+        boolean allNegative = true;
+        for(int i=0;i<n;i++){
+            if((maxSumUntilNow + nums[i]) > maxSum){
+                maxSum = maxSumUntilNow + nums[i];
+                allNegative = false;
+            }     
+            maxSumUntilNow += nums[i];
+            if(maxSumUntilNow <0)
+                maxSumUntilNow=0;
+        }
+        
+        if(allNegative){
+            maxSum = Integer.MIN_VALUE;
+            for(int i=0;i<n;i++){
+                maxSum = Math.max(maxSum, nums[i]);
+            }
+        }
+        
+        
+        return maxSum;
+        
+    }
+}
