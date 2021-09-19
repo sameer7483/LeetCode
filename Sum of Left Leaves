@@ -1,0 +1,38 @@
+
+Given the root of a binary tree, return the sum of all left leaves.
+
+ 
+
+
+SOLUTIONS:
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int sumOfLeftLeaves(TreeNode root) {
+        return sumOfLeftLeavesUtil(root);
+    }
+    
+    public int sumOfLeftLeavesUtil(TreeNode root){
+        if(root == null)
+            return 0;
+        if(root.left != null && root.left.left == null && root.left.right == null)
+            return root.left.val + sumOfLeftLeavesUtil(root.right);
+        int lsum = sumOfLeftLeavesUtil(root.left);
+        int rsum = sumOfLeftLeavesUtil(root.right);
+        return lsum + rsum;
+    }
+}
