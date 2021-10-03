@@ -1,0 +1,68 @@
+Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.
+
+
+SOLUTION:
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+    public class RightSide{
+        public int level;
+        public TreeNode node;
+        RightSide(int level, TreeNode node) {
+          this.level = level;
+          this.node = node;
+      }
+    }
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        int h = height(root);
+            rightSideViewUtil(root,h, result);
+        
+        return result;
+        
+    }
+    
+
+    
+    public void rightSideViewUtil(TreeNode root, int depth, List<Integer> result){
+        if(root == null)
+            return;
+        Queue<RightSide> q = new LinkedList<>();
+        boolean[] visited = new boolean[depth+1];
+        q.add(new RightSide(0, root));
+        while(!q.isEmpty()){
+            RightSide qnode = q.poll();
+            if(!visited[qnode.level]){
+                result.add(qnode.node.val);
+                visited[qnode.level] = true;
+            }
+            if(qnode.node.right != null)
+            q.add(new RightSide(qnode.level+1, qnode.node.right));
+            if(qnode.node.left != null)
+            q.add(new RightSide(qnode.level+1, qnode.node.left));
+        }
+        
+    }
+    
+    
+    public int height(TreeNode root){
+        if(root == null)
+            return -1;
+        return Math.max(height(root.left), height(root.right)) +1;
+    }
+}
