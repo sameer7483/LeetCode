@@ -1,0 +1,62 @@
+
+Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+
+
+
+
+
+
+SOLUTION:
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Wrapper{
+    int preIndex;
+    public Wrapper(int preIndex){
+        this.preIndex = preIndex;
+    }
+}
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return buildTreeUtil(preorder, preorder.length, new Wrapper(0), inorder, inorder.length, 0, inorder.length-1);
+    }
+    
+    public TreeNode buildTreeUtil(int[] preorder,int m, Wrapper wrap, int[] inorder,int n, int li, int hi){
+        if(wrap.preIndex >= m)
+            return null;
+        if(li > hi || hi >=n)
+            return null;
+        int pivot;
+        int i = li;
+        for(i=li; i<=hi;i++){
+            if(inorder[i] == preorder[wrap.preIndex]){
+                flag = true;
+                break;
+            }
+                
+        }
+
+        TreeNode root = new TreeNode(inorder[i]);
+        wrap.preIndex = wrap.preIndex+1;
+        root.left = buildTreeUtil(preorder, m, wrap, inorder, n, li, i-1);
+        if(root.left == null)
+            root.right = buildTreeUtil(preorder, m, wrap, inorder, n, i+1, hi);
+        else
+            root.right = buildTreeUtil(preorder, m,wrap, inorder, n, i+1, hi);
+        return root;
+    }
+}
