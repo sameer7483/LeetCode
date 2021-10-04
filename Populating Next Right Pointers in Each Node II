@@ -1,0 +1,82 @@
+Given a binary tree
+
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+
+Initially, all next pointers are set to NULL.
+
+
+SOLUTIONS:
+
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node next;
+
+    public Node() {}
+    
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, Node _left, Node _right, Node _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+*/
+
+class NextPointer{
+    public int level;
+    public Node node;
+    
+    public NextPointer(int level, Node node){
+        this.level = level;
+        this.node = node;
+    }
+}
+
+class Solution {
+    public Node connect(Node root) {
+        connectUtil(root);
+        return root;
+        
+    }
+    
+    public Node connectUtil(Node root){
+        if(root == null || (root.left == null && root.right == null))
+            return root;
+ 
+        Queue<NextPointer> q = new ArrayDeque<>();
+        if(root.left != null)
+        q.add(new NextPointer(1, root.left));
+        if(root.right != null)
+        q.add(new NextPointer(1, root.right));
+        while(!q.isEmpty()){
+            NextPointer n1 = q.poll();
+            if(!q.isEmpty()){
+            NextPointer n2 = q.peek();
+            if(n1.level == n2.level)
+                n1.node.next = n2.node;
+            }
+ 
+            if(n1.node.left != null)
+            q.add(new NextPointer(n1.level+1, n1.node.left));
+            if(n1.node.right != null)
+            q.add(new NextPointer(n1.level+1, n1.node.right));
+            
+        }
+        return root;
+    }
+    
+}
