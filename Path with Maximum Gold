@@ -1,0 +1,48 @@
+In a gold mine grid of size m x n, each cell in this mine has an integer representing the amount of gold in that cell, 0 if it is empty.
+
+Return the maximum amount of gold you can collect under the conditions:
+
+Every time you are located in a cell you will collect all the gold in that cell.
+From your position, you can walk one step to the left, right, up, or down.
+You can't visit the same cell more than once.
+Never visit a cell with 0 gold.
+You can start and stop collecting gold from any position in the grid that has some gold.
+
+
+SOLUTION:
+
+class Solution {
+    public int getMaximumGold(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        int result =0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] !=0)
+                    result = Math.max(result,getMaximumGoldUtil(grid, m, n, i, j, visited));
+            }
+        }
+        return result;
+    }
+    
+    public int getMaximumGoldUtil(int[][] grid, int m, int n,int si, int sj, boolean[][] visited){
+        visited[si][sj]= true;
+        int up=0, down=0, left=0, right=0;
+        if(si >=0  && (si+1) < m && (sj < n && sj>=0) && visited[si+1][sj] == false && grid[si+1][sj] != 0){
+            down = getMaximumGoldUtil(grid, m, n, si+1, sj, visited);
+        }
+        if(si < m  && (si-1) >= 0 && (sj < n && sj>=0) && visited[si-1][sj] == false && grid[si-1][sj] != 0){
+            up = getMaximumGoldUtil(grid, m, n, si-1, sj, visited);
+        }
+        if(si < m && si >= 0 && (sj-1 >= 0 && sj < n) && visited[si][sj-1] == false && grid[si][sj-1] != 0){
+            left = getMaximumGoldUtil(grid, m, n, si, sj-1, visited);
+        }
+        if(si < m  && si >= 0 && (sj+1 < n && sj >= 0) && visited[si][sj+1] == false && grid[si][sj+1] != 0){
+            right = getMaximumGoldUtil(grid, m, n, si, sj+1, visited);
+        }
+        
+        visited[si][sj] = false;
+        return grid[si][sj] + Math.max(up, Math.max(down, Math.max(left, right)));
+    }
+}
