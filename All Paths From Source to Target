@@ -1,0 +1,31 @@
+Given a directed acyclic graph (DAG) of n nodes labeled from 0 to n - 1, find all possible paths from node 0 to node n - 1 and return them in any order.
+
+The graph is given as follows: graph[i] is a list of all nodes you can visit from node i (i.e., there is a directed edge from node i to node graph[i][j]).
+
+SOLUTION:
+
+class Solution {
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> path = new ArrayList<>();
+        allPathsSourceTargetUtil(graph, 0, graph.length -1, result, path);
+        return result;
+    }
+    
+    public void allPathsSourceTargetUtil(int[][] graph, int start, int goal, List<List<Integer>> result, List<Integer> path){
+        
+        if(start == goal){
+            path.add(goal);
+            List<Integer> gPath = new ArrayList<>(path);
+            result.add(gPath);
+            path.remove(path.size()-1);
+        }
+        path.add(start);
+        int[] children = graph[start];
+        for(int i=0;i<children.length;i++){
+            allPathsSourceTargetUtil(graph, children[i], goal, result, path);
+        }
+        path.remove(path.size()-1);
+        
+    }
+}
