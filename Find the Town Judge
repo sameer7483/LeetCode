@@ -1,0 +1,36 @@
+In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge.
+
+If the town judge exists, then:
+
+The town judge trusts nobody.
+Everybody (except for the town judge) trusts the town judge.
+There is exactly one person that satisfies properties 1 and 2.
+You are given an array trust where trust[i] = [ai, bi] representing that the person labeled ai trusts the person labeled bi.
+
+Return the label of the town judge if the town judge exists and can be identified, or return -1 otherwise.
+
+SOLUTION:
+
+class Solution {
+    public int findJudge(int n, int[][] trust) {
+        if(n==1)
+            return 1;
+        Map<Integer, Integer> m = new HashMap<>();
+        boolean[] trusts = new boolean[n+1];
+        for(int i=0;i<trust.length;i++){
+            trusts[trust[i][0]] = true;
+                if(m.containsKey(trust[i][1])){
+                    m.put(trust[i][1], m.get(trust[i][1])+1);
+                }
+                else{
+                    m.put(trust[i][1], 1);
+                }
+        }
+        
+        for(Map.Entry<Integer,Integer> entry : m.entrySet()){
+            if((entry.getValue() == (n-1)) && !trusts[entry.getKey()])
+                return entry.getKey();
+        }
+        return -1;
+    }
+}
