@@ -1,0 +1,25 @@
+Given an array of integers nums, return the number of good pairs.
+
+A pair (i, j) is called good if nums[i] == nums[j] and i < j.
+SOLUTION:
+class Solution {
+    public int numIdenticalPairs(int[] nums) {
+        Map<Integer, List<Integer>> hmap = new HashMap<>();
+        int count =0;
+        for(int i=0;i<nums.length;i++){
+            if(hmap.containsKey(nums[i])){
+                List<Integer> value= hmap.get(nums[i]);
+                count += value.size();
+                value.add(i);
+                hmap.put(nums[i], value);
+            }
+            else{
+                List<Integer> value= new ArrayList<>();
+                value.add(i);
+                hmap.put(nums[i], value);
+            }
+            
+        }
+        return count;
+    }
+}
