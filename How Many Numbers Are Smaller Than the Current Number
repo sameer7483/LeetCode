@@ -1,0 +1,24 @@
+
+
+Given the array nums, for each nums[i] find out how many numbers in the array are smaller than it. That is, for each nums[i] you have to count the number of valid j's such that j != i and nums[j] < nums[i].
+
+class Solution {
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        int[] count = new int[101];
+        int n = nums.length;
+        for(int i=0;i<n;i++){
+            count[nums[i]]++;
+        }
+        int[] lessThanEqual = new int[101];
+        lessThanEqual[0] = count[0];
+        for(int i=1;i<=100;i++){
+            lessThanEqual[i] = count[i] + lessThanEqual[i-1];
+        }
+        
+        int[] result =new int[nums.length];
+        for(int i=0;i<nums.length;i++){
+            result[i] = lessThanEqual[nums[i]] - count[nums[i]];
+        }
+        return result;
+    }
+}
