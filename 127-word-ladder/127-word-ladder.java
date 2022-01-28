@@ -21,22 +21,6 @@ class Solution {
                     }  
             }
         }
-        
-//        adj.forEach((K, V)-> System.out.println(K + " "+ V));
-        
-        // for(int i=0;i<n;i++){
-        //             int count = 0;
-        //             for(int k=0;k<wordList.get(i).length();k++){
-        //                 if(wordList.get(i).charAt(k) != beginWord.charAt(k)) count++;
-        //                 if(count > 1) break;
-        //             }
-        //             if(count ==1){
-        //                 List<String> l1 = adj.getOrDefault(beginWord, new ArrayList<>());
-        //                 l1.add(wordList.get(i));
-        //                 adj.put(beginWord, l1);
-        //             }             
-        // }
-        
         return bfs(adj, beginWord, endWord);
         
     }
