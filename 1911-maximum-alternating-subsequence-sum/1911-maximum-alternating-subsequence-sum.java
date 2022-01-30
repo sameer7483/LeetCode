@@ -1,10 +1,13 @@
 class Solution {
     long dp[][];
     public long maxAlternatingSum(int[] nums) {
-        dp = new long[nums.length][2];
-        for(int i=0;i<nums.length;i++)
-            Arrays.fill(dp[i], -1);
-        return util(nums, 0, 1);
+        long odd = 0, even = 0;
+        for (int a: nums) {
+            long temp = even;
+            even = Math.max(even, odd + a);
+            odd = Math.max(odd, temp - a);
+        }
+        return Math.max(odd, even);
     }
     
     public long util(int[] nums,int start, int even){
