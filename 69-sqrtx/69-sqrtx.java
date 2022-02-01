@@ -6,17 +6,15 @@ class Solution {
         int hi = x/2;
         
         while(lo <= hi){
-             int mid = hi -(hi-lo)/2;
-            long multiply =(long) mid * mid;
-            if(multiply == x)
-                return mid;
-            else if( multiply > x)
-            {
-                hi = mid-1;
-            }
-            else{
+            int mid = lo +(hi-lo)/2;
+            long mul =(long) mid * mid;
+            if(mul < x)
                 lo = mid+1;
-            }
+            else if(mul > x)
+                hi = mid-1;
+
+            else
+                return mid;
         }
         return hi;
     }
