@@ -30,20 +30,21 @@ class Solution {
         Set<String> vis = new HashSet<>();
         q.add(begin);
         vis.add(begin);
-        int level = 1;
+        int level=0;
         while(!q.isEmpty()){
             level++;
             int size = q.size();
             for(int i=0;i<size;i++){
                 String p = q.poll();
+                if(p.equals(endWord))
+                    return level;
                 for(String s : adj.getOrDefault(p, new ArrayList<>())){
-                    if(s.equals(endWord))
-                        return level;
                     if(!vis.contains(s)){
-                        q.add(s);
                         vis.add(s);
-                    }
+                        q.add(s);
+                    }                    
                 }
+
             }
         }
         return 0;
