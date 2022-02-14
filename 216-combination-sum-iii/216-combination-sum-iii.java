@@ -22,6 +22,8 @@ class Solution {
                 backtrack(nums, i+1, path, res, target-nums[i], k);
                 path.remove(path.size()-1);
             }
+            else
+                break;
         }
     }
     
