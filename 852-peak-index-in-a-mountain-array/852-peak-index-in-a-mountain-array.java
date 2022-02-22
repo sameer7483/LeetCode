@@ -10,6 +10,6 @@ class Solution {
             else
                 j = mid;
         }
-        return j;
+        return i;
     }
 }
