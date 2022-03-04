@@ -1,24 +1,14 @@
-class Solution {
-public:
-    int numRollsToTarget(int d, int f, int target) {
-        long long dp[32][1005]= {0};
-        for(int i=0;i<=d;i++)
-            dp[i][0] = 0;
-        for(int i=0;i<=target;i++)
-            dp[0][i] = 0;
-        dp[0][0] = 1;
-        int count = 0;
-        int mod = (int)(1e9+7);
-
-        for(int i=1;i<=d;i++){
-            for(int k=1;k<=f;k++){
-                for(int j=1;j<=target;j++){
-                    if(j >= k)
-                        dp[i][j] = (dp[i][j] + dp[i-1][j-k])%mod;
-                }                            
-                }
-
-            }
-        return (int) dp[d][target];         
-    }
-};
+class Solution:
+    def numRollsToTarget(self, d: int, f: int, target: int) -> int:
+        dp = [[0 for i in range(target + 1)] for j in range(d + 1)]
+        dp[0][0] =1
+        mod = 10**9+7
+        for i in range(1, d+1):
+            for k in range(1, f+1):
+                for j in range(1, target+1):
+                    if j >= k:
+                        dp[i][j] = (dp[i][j]+dp[i-1][j-k])%mod;
+                        
+        return dp[d][target];                
+        
+        
