@@ -14,28 +14,34 @@ class Solution {
             return l2;
         if(l2 == null)
             return l1;
-        ListNode nH = new ListNode(0);
-        ListNode temp = nH;
         int sum = 0;
-        while(l1 != null || l2 != null){
-            
-            if(l1 != null){
-                sum += l1.val;
-                l1= l1.next;
-            }
-            if(l2 != null){
-                sum += l2.val;
-                l2 = l2.next;
-            }
-            
+        ListNode dummy = new ListNode(-1);
+        ListNode temp = dummy;
+        while(l1 != null && l2 != null){
+            sum += l1.val + l2.val;
             temp.next = new ListNode(sum%10);
-            temp = temp.next;
             sum = sum/10;
+            temp = temp.next;
+            l1 = l1.next;
+            l2 = l2.next;
         }
-        if(sum >=1)
-            temp.next = new ListNode(sum);
-        return nH.next;        
-//        return util(l1, l2, 0);
+        while(l1 != null){
+            sum += l1.val;
+            temp.next = new ListNode(sum%10);
+            sum = sum/10;
+            temp = temp.next;   
+             l1 = l1.next;
+        }
+        while(l2 != null){
+            sum += l2.val;
+            temp.next = new ListNode(sum%10);
+            sum = sum/10;
+            temp = temp.next;   
+            l2 = l2.next;
+        }
+        if(sum == 1)
+            temp.next = new ListNode(1);
+        return dummy.next;
         
     }
     
