@@ -9,7 +9,7 @@ class Solution {
             long mod = sum % k;
             if(!m.containsKey(mod))
                 m.put(mod, i);
-            else if(m.containsKey(mod) && (i-m.get(mod)) > 1)
+            else if(i-m.get(mod) > 1)
                 return true;
         }
         return false;
