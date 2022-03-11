@@ -1,10 +1,5 @@
 class Solution {
     public int arrangeCoins(int n) {
-        int i=1;
-        while(n > 0){
-            n = n-i;
-            i++;
-        }
-        return n==0 ? i-1 : i-2;
+        return ((int)Math.sqrt(8*(long)n+1L) - 1)/2;
     }
 }
