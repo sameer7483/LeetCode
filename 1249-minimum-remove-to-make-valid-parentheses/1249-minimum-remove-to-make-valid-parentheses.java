@@ -1,10 +1,10 @@
 class Solution {
     public String minRemoveToMakeValid(String s) {
-        Set<Integer> set = new HashSet<>();
-        Stack<Pair<Integer,Character>> st = new Stack<>();
+        Stack<Integer> st = new Stack<>();
+        Set<Integer> set  = new HashSet<>();
         for(int i=0;i<s.length();i++){
             if(s.charAt(i) == '(')
-                st.push(new Pair(i, '('));
+                st.push(i);
             else if(s.charAt(i) == ')'){
                 if(!st.isEmpty())
                     st.pop();
@@ -13,7 +13,7 @@ class Solution {
             }
         }
         while(!st.isEmpty()){
-            set.add(st.pop().getKey());
+            set.add(st.pop());
         }
         
         StringBuilder sb = new StringBuilder();
