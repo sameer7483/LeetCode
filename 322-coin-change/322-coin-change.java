@@ -1,10 +1,8 @@
 class Solution {
-    long[][] dp;
     public int coinChange(int[] coins, int amount) {
-        dp = new long[coins.length+1][amount+1];
-        //dp[i][j]= min coin needed to make j amount using first i coins.
         int n = coins.length;
-        Arrays.fill(dp[0], amount+1);
+        long[][] dp = new long[n+1][amount+1];
+        Arrays.fill(dp[0], Integer.MAX_VALUE);
         dp[0][0] = 0;
         for(int i=1;i<=n;i++){
             for(int j=1;j<=amount;j++){
@@ -15,11 +13,9 @@ class Solution {
                     dp[i][j] = dp[i-1][j];
                 }
             }
-            
         }
+        long res = dp[n][amount] == Integer.MAX_VALUE ? -1 : dp[n][amount];
+        return (int)res;
         
-        if(dp[n][amount] > amount)
-            return -1;
-        return (int)dp[n][amount];
     }
 }
