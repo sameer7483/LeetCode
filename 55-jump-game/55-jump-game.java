@@ -2,8 +2,11 @@ class Solution {
     Boolean[] dp;
     public boolean canJump(int[] nums) {
         int n = nums.length;
-        dp = new Boolean[n];
-        return util(nums, 0);
+        int maxReach = nums[0];
+        for(int i=1;i<=maxReach && i < n;i++){
+            maxReach = Math.max(maxReach, i+nums[i]);
+        }
+        return maxReach >= n-1;
     }
     
     public boolean util(int[] nums, int start){
