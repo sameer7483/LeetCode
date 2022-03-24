@@ -10,11 +10,7 @@ class Solution {
                 j--;
             }  
             else{
-                if(people[j] + people[j-1] <= limit){
-                    res+=1;
-                    j = j-2;
-                }
-                else if(people[j] + people[i] <= limit){
+                if(people[j] + people[i] <= limit){
                     res +=1;
                     j--;
                     i++;
