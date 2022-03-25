@@ -41,9 +41,12 @@ class WordDictionary {
         }
         else{
             for(int i=0;i<26;i++){
-                if(searchUtil(word, start+1, r.children[i])){
-                    return true;
+                if(r.children[i] != null){
+                     if(searchUtil(word, start+1, r.children[i])){
+                        return true;
+                    }                   
                 }
+
             }
             return false;
         }
