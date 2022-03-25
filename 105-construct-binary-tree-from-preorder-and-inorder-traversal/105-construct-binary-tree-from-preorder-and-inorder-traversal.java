@@ -36,11 +36,8 @@ class Solution {
             return null;
         pre++;
         root.left = util(preorder, inorder, start, i-1);
-        if(root.left == null)
-            root.right =  util(preorder, inorder, i+1, end);
-        else {
-            root.right = util(preorder, inorder, i+1, end);
-        }  
+        root.right = util(preorder, inorder, i+1, end);
+
         return root;
         
     }
