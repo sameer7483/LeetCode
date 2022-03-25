@@ -8,40 +8,27 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-class Pair{
-    ListNode l;
-    int idx;
-    public Pair(int idx, ListNode l){
-        this.idx = idx;
-        this.l = l;
-    }
-}
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        PriorityQueue<Pair> q = new PriorityQueue<>((a, b)->a.l.val-b.l.val);
         int k = lists.length;
+        PriorityQueue<Pair<Integer, Integer>> q = new PriorityQueue<>((a,b)-> a.getKey()-b.getKey());
         for(int i=0;i<k;i++){
             if(lists[i] != null){
-                q.add(new Pair(i, lists[i]));
+                q.add(new Pair(lists[i].val, i));
                 lists[i] = lists[i].next;
-            }
+            }     
         }
-        ListNode head = null;
-        ListNode temp = new ListNode(-1);
+        ListNode dummy = new ListNode(-1);
+        ListNode temp = dummy;
         while(!q.isEmpty()){
-            Pair p = q.poll();
-            if(lists[p.idx] != null){
-                q.add(new Pair(p.idx, lists[p.idx]));
-                lists[p.idx] = lists[p.idx].next;
-            }
-            p.l.next = null;
-            if(head == null){
-                head = p.l;
-            }
-            temp.next = p.l;
+            Pair<Integer,Integer> p = q.poll();
+            temp.next = new ListNode(p.getKey());
             temp = temp.next;
-            
+            if(lists[p.getValue()] != null){
+                q.add(new Pair(lists[p.getValue()].val, p.getValue()));
+                lists[p.getValue()] = lists[p.getValue()].next;
+            }
         }
-        return head;
+        return dummy.next;
     }
 }
