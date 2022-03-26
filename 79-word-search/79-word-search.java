@@ -5,7 +5,7 @@ class Solution {
         boolean[][] vis = new boolean[m][n];
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                if(dfs(board, word, i, j, vis))
+                if(dfs(board, i, j, 0, word, vis))
                     return true;
             }
         }
@@ -13,20 +13,18 @@ class Solution {
         
     }
     
-    public boolean dfs(char[][] board, String word, int r, int c, boolean[][] vis){
-        int m = board.length;
-        int n = board[0].length;
-        if(word== null || word.isEmpty())
+    public boolean dfs(char[][] board, int r, int c, int i, String word, boolean vis[][]){
+        if(i==word.length())
             return true;
-        if(r < 0 || r >= m || c < 0 || c >=n || vis[r][c] || board[r][c] != word.charAt(0))
+        if(r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != word.charAt(i) || vis[r][c])
             return false;
         vis[r][c] = true;
-        if(dfs(board, word.substring(1), r+1, c, vis)||
-           dfs(board, word.substring(1), r-1, c, vis)||
-           dfs(board, word.substring(1), r, c+1, vis)||
-           dfs(board, word.substring(1), r, c-1, vis))
-            return true;
+        boolean up = dfs(board, r-1, c, i+1, word, vis);
+        boolean dn = dfs(board, r+1, c, i+1, word, vis);
+        boolean le = dfs(board, r, c-1, i+1, word, vis);
+        boolean ri = dfs(board, r, c+1, i+1, word, vis);
         vis[r][c] = false;
-        return false; 
+        return up||dn||le||ri;
     }
+
 }
