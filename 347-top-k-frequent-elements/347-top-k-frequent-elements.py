@@ -1,7 +1,6 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         m = Counter(nums)
-        print(m)
         minHeap = []
         for num, v in m.items():
             if len(minHeap) < k:
