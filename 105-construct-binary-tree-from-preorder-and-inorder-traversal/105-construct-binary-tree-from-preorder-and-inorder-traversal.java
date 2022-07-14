@@ -37,7 +37,6 @@ class Solution {
         pre++;
         root.left = util(preorder, inorder, start, i-1);
         root.right = util(preorder, inorder, i+1, end);
-
         return root;
         
     }
