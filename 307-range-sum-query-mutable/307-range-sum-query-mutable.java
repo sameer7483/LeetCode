@@ -19,7 +19,6 @@ class NumArray {
     public NumArray(int[] nums) {
         root = makeSegmentTree(nums, 0 , nums.length-1);
         numArr = nums;
-        // printRoot(root);
         
     }
     public void printRoot(SegmentTreeNode root){
@@ -32,7 +31,6 @@ class NumArray {
     
     public void update(int index, int val) {
         updateSt(root, index, val);
-        // printRoot(root);
     }
     
     public int sumRange(int left, int right) {
