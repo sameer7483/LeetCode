@@ -1,14 +1,11 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        res=[]
+        res = []
         m = {}
-        for i, val in enumerate(nums):
-            if target-val in m:
-                res.append(i)
-                res.append(m[target-val])
-                return res
+        for i, num in enumerate(nums):
+            if target-num in m:
+                return [i, m[target-num]]
             else:
-                m[val] = i     
-        return res
+                m[num] = i
             
         
