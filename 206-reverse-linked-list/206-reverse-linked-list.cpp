@@ -13,9 +13,15 @@ public:
     ListNode* reverseList(ListNode* head) {
         if(head == nullptr || head->next == nullptr)
             return head;
-        ListNode* next = reverseList(head->next);
-        head->next->next = head;
-        head->next = nullptr;
-        return next;
+        ListNode* temp = head;
+        ListNode* prev = nullptr;
+        while(temp){
+            ListNode* next = temp->next;
+            temp->next = prev;
+            prev = temp;
+            temp = next;
+            
+        }
+        return prev;
     }
 };
