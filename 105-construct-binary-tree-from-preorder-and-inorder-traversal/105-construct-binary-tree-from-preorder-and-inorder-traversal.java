@@ -16,29 +16,25 @@
 class Solution {
     int pre;
     public TreeNode buildTree(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> m = new HashMap<>();
+        int n = inorder.length;
+        for(int i=0;i<n;i++){
+            m.put(inorder[i], i);
+        }
         pre = 0;
-        return util(preorder, inorder, 0, inorder.length-1);
+        return makeTree(preorder, m, 0, n-1);
     }
     
-    public TreeNode util(int[] preorder, int[] inorder, int start, int end){
-        if(start > end)
+    public TreeNode makeTree(int[] preorder,Map<Integer, Integer> m, int lo, int hi){
+        if(pre >= preorder.length || lo > hi)
             return null;
-        if(pre >= preorder.length)
-            return null;
-        int elem = preorder[pre];
-        int i = start;
-        for(i=start;i<=end;i++){
-            if(inorder[i] == elem)
-                break;
-        }
-        TreeNode root = new TreeNode(elem);
-        if(i> end)
+        TreeNode curr = new TreeNode(preorder[pre]);
+        int idx = m.get(preorder[pre]);
+        if(idx < lo || idx > hi)
             return null;
         pre++;
-        root.left = util(preorder, inorder, start, i-1);
-        root.right = util(preorder, inorder, i+1, end);
-        return root;
-        
+        curr.left = makeTree(preorder, m, lo, idx-1);
+        curr.right = makeTree(preorder, m, idx+1, hi);
+        return curr;
     }
- 
 }
