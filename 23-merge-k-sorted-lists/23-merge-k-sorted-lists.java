@@ -11,22 +11,19 @@
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         int k = lists.length;
-        PriorityQueue<Pair<Integer, Integer>> q = new PriorityQueue<>((a,b)-> a.getKey()-b.getKey());
+        PriorityQueue<ListNode> q = new PriorityQueue<>((a,b)-> a.val - b.val);
         for(int i=0;i<k;i++){
-            if(lists[i] != null){
-                q.add(new Pair(lists[i].val, i));
-                lists[i] = lists[i].next;
-            }     
+            if(lists[i] != null)
+                q.add(lists[i]);
         }
         ListNode dummy = new ListNode(-1);
         ListNode temp = dummy;
         while(!q.isEmpty()){
-            Pair<Integer,Integer> p = q.poll();
-            temp.next = new ListNode(p.getKey());
-            temp = temp.next;
-            if(lists[p.getValue()] != null){
-                q.add(new Pair(lists[p.getValue()].val, p.getValue()));
-                lists[p.getValue()] = lists[p.getValue()].next;
+            ListNode curr = q.poll();
+            temp.next = curr;
+            temp = curr;
+            if(curr.next != null){
+                q.add(curr.next);
             }
         }
         return dummy.next;
