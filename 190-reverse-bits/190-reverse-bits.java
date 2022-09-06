@@ -4,8 +4,8 @@ public class Solution {
         int res = 0;
         for(int i=0;i<31;i++){
             res += n&1;
-            res = res<<1;
-            n = n>>>1;
+            res = res << 1;
+            n = n >>> 1;
         }
         res += n&1;
         return res;
