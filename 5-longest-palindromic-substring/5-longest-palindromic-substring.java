@@ -3,26 +3,33 @@ class Solution {
         int n = s.length();
         int max = 0;
         String res = "";
-        for(int i=0;i<n && n-i > max;i++){
-            for(int j=i;j<n;j++){
-                if(isPalindrome(s, i, j)){
-                    if(j-i+1 > max){
-                        res = s.substring(i, j+1);
-                        max = j-i+1;
-                    }
-                }
+        
+        for(int k=0;k<n;k++){
+            int i=k, j= k;
+            while(i >= 0 && j < n){
+                if(s.charAt(i) != s.charAt(j))
+                    break;
+                i--;
+                j++;
             }
+            if(j-i-1 > max){
+                max = j-i-1;
+                res = s.substring(i+1, j);
+            }
+            i = k;
+            j = k+1;
+            while(i >= 0 && j < n){
+                if(s.charAt(i) != s.charAt(j))
+                    break;
+                i--;
+                j++;
+            }
+            if(j-i-1 > max){
+                max = j-i-1;
+                res = s.substring(i+1, j);
+            }            
         }
         return res;
     }
     
-    public boolean isPalindrome(String s, int i, int j){
-        while(i < j){
-            if(s.charAt(i) != s.charAt(j))
-                return false;
-            i++;
-            j--;
-        }
-        return true;
-    }
 }
