@@ -1,26 +1,31 @@
 class Solution {
+    Set<String> set;
     int[] dp;
     public int numDecodings(String s) {
-        Set<String> set = new HashSet<>();
-        for(int i=1;i<=26;i++){
-            set.add(String.valueOf(i));
-        }
+        set = new HashSet<>();
         dp = new int[s.length()];
-        Arrays.fill(dp, -1);
-        return util(s, 0, set);
+        Arrays.fill(dp, -1); 
+        for(int i=1;i<=26;i++){
+            set.add(String.valueOf(i));    
+        }
+        return util(s,0);
     }
     
-    public int util(String s, int start, Set<String> set){
-        if(start == s.length())
+    public int util(String s, int i){
+        if(i >= s.length())
             return 1;
-        if(dp[start] != -1)
-            return dp[start];
-        int res = 0;
-        for(int i=start;i<s.length();i++){
-            if(set.contains(s.substring(start, i+1))){
-                res += util(s, i+1, set);
-            }
+        if(dp[i] != -1)
+            return dp[i];
+        int first = 0;
+        int second = 0;
+        if(set.contains(s.substring(i,i+1))){
+            first = util(s, i+1);
         }
-        return dp[start]= res;
+        if(s.length()-i >= 2 && set.contains(s.substring(i,i+ 2))){
+            second = util(s, i+2);
+        }
+        return dp[i] = first + second;
     }
-}  
+    
+    
+}
