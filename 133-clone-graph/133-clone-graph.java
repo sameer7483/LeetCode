@@ -18,47 +18,36 @@ class Node {
 }
 */
 
-class Pair{
-    Node n1;
-    Node n2;
-    public Pair(Node n1, Node n2){
-        this.n1 = n1;
-        this.n2 = n2;
-    }
-}
-
 class Solution {
     public Node cloneGraph(Node node) {
         if(node == null)
             return node;
-        Node newNode = new Node(node.val);
-        Set<Integer> vis = new HashSet<>();
         Map<Integer, Node> m = new HashMap<>();
-        m.put(newNode.val, newNode);
         Queue<Node> q = new LinkedList<>();
-        vis.add(node.val);
         q.add(node);
+        Node newNode = new Node(node.val);
+        m.put(node.val, newNode);
+        Set<Integer> vis = new HashSet<>();
         while(!q.isEmpty()){
-            int size = q.size();
-            for(int i=0;i<q.size();i++){
-                Node p = q.poll();
-                List<Node> l = new ArrayList<>();
-                for(Node n : p.neighbors){
-                        Node newN = m.getOrDefault(n.val, new Node(n.val));
-                        l.add(newN);
-                        m.put(newN.val, newN); 
-                        if(!vis.contains(n.val)){
-                            vis.add(n.val);
-                            q.add(n);                            
-                        }
-                    
+            Node p = q.poll();
+            Node np = m.get(p.val);
+            vis.add(p.val);
+            List<Node> l = new ArrayList<>();
+            for(Node r : p.neighbors){
+                if(m.containsKey(r.val)){
+                    l.add(m.get(r.val));
                 }
-                Node newP = m.get(p.val);
-                newP.neighbors = l;
-                m.put(newP.val, newP);
+                else{
+                    Node nn = new Node(r.val);
+                    m.put(r.val, nn);
+                    l.add(nn);
+                }
+                if(!vis.contains(r.val)){
+                    q.add(r);
+                }
             }
+            np.neighbors = l;
         }
         return newNode;
     }
-    
 }
