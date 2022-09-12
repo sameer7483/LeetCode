@@ -1,34 +1,35 @@
 class Solution {
-    public boolean canFinish(int n, int[][] p) {
+    public boolean canFinish(int n, int[][] prereq) {
         Map<Integer, List<Integer>> adj = new HashMap<>();
-        for(int[] c : p){
-            List<Integer> l = adj.getOrDefault(c[0], new ArrayList<>());
-            l.add(c[1]);
-            adj.put(c[0], l);
+        for(int i=0;i<prereq.length;i++){
+            List<Integer> l = adj.getOrDefault(prereq[i][0], new ArrayList<>());
+            l.add(prereq[i][1]);
+            adj.put(prereq[i][0], l);
         }
-        boolean[] vis = new boolean[n];
-        boolean[] recVis = new boolean[n];
+        Set<Integer> visited = new HashSet<>();
         for(int i=0;i<n;i++){
-            if(!vis[i]){
-                if(isCycle(adj, i, vis, recVis))
-                    return false;     
+            if(!visited.contains(i)){
+                 if(isCycle(adj, i, visited, new HashSet<>()))
+                    return false;               
             }
+
         }
         return true;
+        
     }
     
-    public boolean isCycle(Map<Integer, List<Integer>> adj, int u, boolean[] vis, boolean[] recVis){
-        if(recVis[u])
+    public boolean isCycle(Map<Integer, List<Integer>> adj, int u, Set<Integer> visited, Set<Integer> recVisited){
+        if(recVisited.contains(u))
             return true;
-        if(vis[u])
-            return false;
-        vis[u] = true;
-        recVis[u] = true;
+        if(visited.contains(u))
+            return false;;
+        recVisited.add(u);
         for(Integer v : adj.getOrDefault(u, new ArrayList<>())){
-            if(isCycle(adj, v, vis, recVis))
+            if(isCycle(adj, v, visited, recVisited))
                 return true;
         }
-        recVis[u] = false;
+        recVisited.remove(u);
+        visited.add(u);
         return false;
     }
 }
