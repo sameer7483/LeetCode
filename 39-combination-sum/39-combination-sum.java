@@ -16,7 +16,6 @@ class Solution {
         }
         if(target-cand[start] >= 0){
             path.add(cand[start]);
-            // System.out.println(path);
             util(cand, start, target-cand[start], path, res);
             path.remove(path.size()-1);
         }
