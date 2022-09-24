@@ -23,8 +23,6 @@ class Solution {
     public void util(TreeNode root, int targetSum, List<Integer> path, List<List<Integer>> res){
         if(root == null)
             return;
-        // if(targetSum < 0)
-        //     return;
         if(targetSum-root.val == 0  && root.left == null && root.right == null){
             path.add(root.val);
             res.add(new ArrayList<>(path));
