@@ -1,17 +1,18 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        //t1[i][k] =max(t1[i-1][k],t0[i-2][k-1]-prices[i])
-        //t0[i][k] = max(t0[i-1][k],t1[i-1][k]+prices[i])
-        int t1ik = Integer.MIN_VALUE;
-        int t0ik = 0;
-        int t0ik2 = 0;
-        for(int i=0;i<prices.length;i++){
-            int temp = t0ik;
-            t0ik = Math.max(t0ik, t1ik+prices[i]);
-            t1ik = Math.max(t1ik, t0ik2 - prices[i]);
-            t0ik2 = temp;
+//        t1[i] = t0[i-2]-prices[i], t1[i-1]
+        //t0[i] = t0[i-1], t1[i-1] + prices[i]
+        
+        int t1i = Integer.MIN_VALUE/2;
+        int t0i = 0;
+        int lastSec = 0;
+        int last = 0;
+        for(int i=0;i< prices.length;i++){
+            lastSec = last;
+            last = t0i;
+            t0i = Math.max(t0i, t1i+prices[i]);
+            t1i = Math.max(lastSec-prices[i], t1i);
         }
-        return t0ik;
+        return Math.max(t1i, t0i);
     }
-
 }
