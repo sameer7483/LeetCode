@@ -1,18 +1,14 @@
 class Solution {
-    int res;
     public int findTargetSumWays(int[] nums, int target) {
-        res = 0;
-        util(nums, 0, 0, target);
-        return res;
+        return util(nums, nums.length,target);
     }
     
-    public void util(int[] nums,int start, int curr, int target){
-        if(start == nums.length && curr == target)
-            res++;
-        if(start == nums.length)
-            return;
-        util(nums, start+1, curr + nums[start], target);
-        util(nums, start+1, curr-nums[start], target);
-    }
     
+    public int util(int[] nums, int n, int target){
+        if(n==0 && target ==0)
+            return 1;
+        if(n <= 0)
+            return 0;
+        return util(nums, n-1, target-nums[n-1]) + util(nums, n-1, target+nums[n-1]);
+    }
 }
