@@ -8,10 +8,10 @@ class Solution {
         int lastSec = 0;
         int last = 0;
         for(int i=0;i< prices.length;i++){
-            lastSec = last;
             last = t0i;
             t0i = Math.max(t0i, t1i+prices[i]);
             t1i = Math.max(lastSec-prices[i], t1i);
+            lastSec = last;
         }
         return Math.max(t1i, t0i);
     }
