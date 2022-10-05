@@ -8,8 +8,6 @@ class Solution {
         int m = w2.length();
         int n = w1.length();
         int[][] dp = new int[m+1][n+1];
-        for(int i=0;i<=m;i++)
-            Arrays.fill(dp[i],Integer.MIN_VALUE/2);
         for(int i=0;i<=n;i++)
             dp[0][i] = i;
         for(int i=0;i<=m;i++)
