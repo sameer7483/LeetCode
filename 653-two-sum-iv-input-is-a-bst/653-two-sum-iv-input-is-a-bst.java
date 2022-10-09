@@ -15,22 +15,16 @@
  */
 class Solution {
     public boolean findTarget(TreeNode root, int k) {
-        if(root == null) return false;
-        List<Integer> res = new ArrayList<>();
-        inorder(root, res);
-        int i=0, j= res.size()-1;
-        while(i<j){
-            int sum = res.get(i) + res.get(j);
-            if(sum == k) return true;
-            if(sum < k) i++;
-            else j--;
-        }
-        return false;
-    }    
-    public void inorder(TreeNode root, List<Integer> res){
-        if(root == null) return ;
-        inorder(root.left, res);
-        res.add(root.val);
-        inorder(root.right, res);
+        Set<Integer> s = new HashSet<>();
+        return dfs(root, k, s);
+    }
+    
+    public boolean dfs(TreeNode root, int k, Set<Integer> s){
+        if(root == null)
+            return false;
+        if(s.contains(k-root.val))
+            return true;
+        s.add(root.val);
+        return dfs(root.left, k, s) || dfs(root.right, k, s);
     }
 }
