@@ -27,7 +27,6 @@ class Twitter:
             if friend in self.m:
                 for tweet in self.m[friend].tweets:
                     allTweets.append(tweet)
-        # print(allTweets)
         return map(lambda y : y[0], sorted(allTweets,key = lambda x: x[1], reverse=True)[:10])
 
     def follow(self, followerId: int, followeeId: int) -> None:
