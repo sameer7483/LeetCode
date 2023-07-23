@@ -1,35 +1,25 @@
 class Solution {
-    long[][] dp;
+    int[][] dp;
     public int coinChange(int[] coins, int amount) {
-        //dp[i][j] = 1+dp[i][j-coins[i-1]], dp[i-1][j]
-        dp = new long[coins.length+1][amount+1];
-        Arrays.fill(dp[0], Integer.MAX_VALUE);
-        dp[0][0] = 0;
-        int n = coins.length;
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=amount;j++){
-                if(j>=coins[i-1]){
-                    dp[i][j] = Math.min(dp[i-1][j],1+dp[i][j-coins[i-1]]);
-                }
-                else{
-                    dp[i][j] = dp[i-1][j];
-                }
-            }
-        }
-        return dp[n][amount] >= Integer.MAX_VALUE ? -1 : (int)dp[n][amount];
+        dp = new int[coins.length+1][amount+1];
+        for(int i=0;i<=coins.length;i++)
+            Arrays.fill(dp[i], -1);
+        int res = util(coins, 0, amount);
+        return res >= Integer.MAX_VALUE/2 ? -1 : res;
     }
     
-    public long util(int[] coins, int amount, int n){
-        if(n <= 0 || amount < 0)
-            return Long.MAX_VALUE/2;
-        if(amount == 0)
+    public int util(int[] coins, int curr, int amount){
+        if(amount <= 0)
             return 0;
-        if(dp[n][amount] != -1)
-            return dp[n][amount];
-        if(amount >= coins[n-1]){
-            return dp[n][amount]= Math.min(util(coins, amount, n-1), 1+util(coins, amount-coins[n-1], n));
+        if(curr >= coins.length)
+            return Integer.MAX_VALUE/2;
+        if(dp[curr][amount] != -1)
+            return dp[curr][amount];
+        if(amount >= coins[curr]){
+             return dp[curr][amount] = Math.min(1+util(coins, curr, amount-coins[curr]), util(coins, curr+1, amount));
         }
-        else 
-            return dp[n][amount]=util(coins, amount, n-1); 
+        else{
+            return dp[curr][amount] = util(coins, curr+1, amount);
+        }
     }
 }
