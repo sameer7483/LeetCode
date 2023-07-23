@@ -1,25 +1,23 @@
 class Solution {
     Boolean[] dp;
     public boolean wordBreak(String s, List<String> wordDict) {
-        Set<String> set = new HashSet<>();
-        for(String str : wordDict){
-            set.add(str);
-        }
-        dp = new Boolean[s.length()];
-        return util(s,0, set);
+        Set<String> dict = new HashSet<>();
+        dp = new Boolean[s.length()+1];
+        for(String str : wordDict)
+            dict.add(str);
+        return util(s, 0, dict);
+        
     }
-    
-    public boolean util(String s,int start, Set<String> set){
-        if(start >= s.length())
+    public boolean util(String s, int curr, Set<String> dict){
+        if(curr == s.length())
             return true;
+        if(dp[curr] != null)
+            return dp[curr];
         boolean res = false;
-        if(dp[start] != null)
-            return dp[start];
-        for(int i=start;i<s.length();i++){
-            if(set.contains(s.substring(start, i+1))){
-                res = res || util(s,i+1, set);
-            }
+        for(int i=curr;i<s.length();i++){
+            if(dict.contains(s.substring(curr, i+1)))
+                res = res || util(s, i+1, dict);
         }
-        return dp[start]=res;
+        return dp[curr] = res;
     }
 }
