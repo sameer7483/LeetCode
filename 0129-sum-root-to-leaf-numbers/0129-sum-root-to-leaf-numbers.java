@@ -16,7 +16,6 @@
 class Solution {
     int res = 0;
     public int sumNumbers(TreeNode root) {
-        res = 0;
         util(root, 0);
         return res;
     }
@@ -24,7 +23,7 @@ class Solution {
     public void util(TreeNode root, int curr){
         if(root == null)
             return;
-        if(root.left == null & root.right == null){
+        if(root.left == null && root.right == null){
             res += curr+root.val;
         }
         curr += root.val;
