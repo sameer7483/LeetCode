@@ -21,29 +21,42 @@ class Node {
 class Solution {
     public Node cloneGraph(Node node) {
         if(node == null)
-            return node;
-        Queue<Node> q = new LinkedList<>();
+            return null;
         Map<Integer, Node> m = new HashMap<>();
+        dfs(node, m, new HashSet<>());
+        bfs(node, m);
+        return m.get(node.val);
+        
+    }
+    
+    public void bfs(Node node, Map<Integer, Node> m){
+        Queue<Node> q = new LinkedList<>();
         q.add(node);
         Set<Integer> vis = new HashSet<>();
         while(!q.isEmpty()){
-            int size = q.size();
-            for(int i=0;i<size;i++){
-                Node p = q.poll();
-                vis.add(p.val);
-                List<Node> neigh = new ArrayList<>();
-                for(Node n : p.neighbors){
-                    if(!m.containsKey(n.val))
-                        m.put(n.val, new Node(n.val));
-                    neigh.add(m.get(n.val));
-                    if(!vis.contains(n.val))
-                        q.add(n);
-                }
-                if(!m.containsKey(p.val))
-                    m.put(p.val, new Node(p.val));
-                m.get(p.val).neighbors = neigh;                
+            Node p = q.poll();
+            if(vis.contains(p.val))
+                continue;
+            vis.add(p.val);
+            List<Node> l = new ArrayList<>();
+            for(Node n : p.neighbors){
+                l.add(m.get(n.val));
+                q.add(n);
             }
+            m.get(p.val).neighbors = l;
         }
-        return m.get(node.val);
+    }
+    
+    public void dfs(Node node, Map<Integer, Node> m, Set<Integer> recVis){
+        if(recVis.contains(node.val))
+            return;
+        if(m.containsKey(node.val))
+            return;
+        recVis.add(node.val);
+        for(Node n : node.neighbors){
+            dfs(n, m, recVis);
+        }
+        recVis.remove(node.val);
+        m.put(node.val, new Node(node.val));
     }
 }
